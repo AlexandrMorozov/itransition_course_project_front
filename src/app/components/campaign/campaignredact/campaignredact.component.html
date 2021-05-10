@@ -1,0 +1,128 @@
+<div>
+<!--onSubmit()-->
+    <form
+    *ngIf="!isSuccessful"
+    name="form"
+    (ngSubmit)="f.form.valid"
+    #f="ngForm"
+    novalidate>
+
+    <!--type="submit"-->
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" onclick="onSubmit()">Create/Save</button>
+      </div>
+
+        <div class="form-group col-12 col-sm-6 col-md-12">
+            <div class="row">
+                <div style="margin: 15px">
+                    <h5>Campaign name:</h5>
+                    <input type="text" pInputText
+                    name="name"
+                    [(ngModel)]="form.name"
+                    required
+                    minlength="5"
+                    maxlength="20"
+                    #name="ngModel"> 
+                    <span class="p-ml-2"></span>
+                    <div class="alert-danger" *ngIf="f.submitted && name.invalid">
+                        <div *ngIf="name.errors.required">Name is required</div>
+                        <div *ngIf="name.errors.minlength">
+                          Name must be at least 5 characters
+                        </div>
+                        <div *ngIf="name.errors.maxlength">
+                          Name must be at most 20 characters
+                        </div>
+                      </div>
+                </div>
+                <div style="margin: 15px">
+                    <h5>Will last till: </h5>
+                    <input type="date" min="{{date | date:'yyyy-MM-dd'}}" pInputText
+                    name="date"
+                    [(ngModel)]="form.date"
+                    required
+                    #date="ngModel"> 
+                    <span class="p-ml-2"></span>
+                    <div class="alert-danger" *ngIf="f.submitted && date.invalid">
+                        <div *ngIf="date.errors.required">Date is required</div>
+                      </div>
+                </div>
+                <div style="margin: 15px">
+                    <h5>Donate goal: </h5>
+                    <p-inputNumber mode="currency" currency="USD" locale="en-US" id="sum" min='10' max='1000000'
+                    name="sum"
+                    [(ngModel)]="form.sum"
+                    required
+                    #sum="ngModel"></p-inputNumber>
+                    <div class="alert-danger" *ngIf="f.submitted && sum.invalid">
+                        <div *ngIf="sum.errors.required">Sum is required</div>
+                      </div>
+                </div>
+                <div style="margin: 15px">
+                    <h5>Topic: </h5>
+                    <p-dropdown [options]="themes" id="topic" [(ngModel)]="selectedTheme" optionLabel="theme" optionValue="id"></p-dropdown>
+                </div>
+            </div>
+    
+            
+          <div class="form-group">
+            <h5>Campaign description: </h5>
+            <textarea pInputTextarea class="form-control" id="exampleFormControlTextarea1" rows="2" maxlength="150"
+            name="desc"
+            [(ngModel)]="form.desc"
+            minlength="30"
+            maxlength="150"
+            required
+            #desc="ngModel"></textarea>
+            <div class="alert-danger" *ngIf="f.submitted && desc.invalid">
+                <div *ngIf="desc.errors.required">Description is required</div>
+                <div *ngIf="desc.errors.minlength">
+                  Description must be at least 30 characters
+                </div>
+                <div *ngIf="desc.errors.maxlength">
+                    Description must be at most 150 characters
+                </div>
+              </div>
+        </div>
+    
+        <div style="margin-top: 15px">
+            <h5>Video link:</h5>
+            <input type="text" pInputText
+            name="video"
+            [(ngModel)]="form.video"
+            required
+            #video="ngModel"> 
+            <span class="p-ml-2"></span>
+            <div class="alert-danger" *ngIf="f.submitted && video.invalid">
+                <div *ngIf="video.errors.required">Link is required</div>
+              </div>
+        </div>
+        </div>
+    </form>
+
+   <div>
+        <h3><b>Tags: </b></h3>      
+        <!--<tag-input [(ngModel)]='tags' style="margin: 15px">
+            <tag-input-dropdown [autocompleteItems]='autoTags' >
+            </tag-input-dropdown>
+        </tag-input>-->
+        <app-tag-edit (onTagChange)="onTagsChange($event)" [tags]="tags"></app-tag-edit>
+    </div>
+
+
+    <div>
+        <h3><b>Images: </b></h3>
+        <app-img-input (onFileChange)="onFilesChange($event)"
+        (onSavedPictureChange)="onImagesChange($event)"
+        [images]="images" style="margin: 15px"></app-img-input>
+
+    </div>
+
+    <div>
+        <h3><b>Bonuses: </b></h3>
+        <app-bonus-edit (onChange)="onBonusesChange($event)" [bonuses]="bonuses" style="margin: 15px"></app-bonus-edit>
+    </div>
+
+
+
+
+</div>

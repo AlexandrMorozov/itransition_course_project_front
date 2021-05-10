@@ -5,7 +5,5 @@ export interface Bonus {
 
     description?: string;
 
-    price?: number;
-
-    campaign?: any;
+    sum?: number;
 }

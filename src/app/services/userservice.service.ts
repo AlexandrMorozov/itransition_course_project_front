@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User } from '../domain/user';
 
 const API_URL = 'http://localhost:8080/';
 
@@ -30,6 +32,10 @@ export class UserserviceService {
     .set("newEmail", newUserMail);
 
     return this.http.get(API_URL + "user/changemail", {responseType: "json", params});
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(API_URL + "user/getallusers", {responseType: 'json'});
   }
 
 }

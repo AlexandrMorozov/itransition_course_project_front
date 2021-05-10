@@ -7,12 +7,16 @@ import { TokenStorageService } from '../tokenstorageservice/token-storage.servic
 @Injectable({
   providedIn: 'root'
 })
+
 export class RoleGuardService implements CanActivate {
 
   constructor(private auth: AuthcheckserviceService, private router: Router,
      private tokenStorage: TokenStorageService) { }
 
      canActivate(route: ActivatedRouteSnapshot): boolean {
+
+      console.log(route);
+      //console.log(this.router);
        
       if (!this.auth.isAuthenticated()) {
 
@@ -21,29 +25,33 @@ export class RoleGuardService implements CanActivate {
 
       } else {
 
-        let roleMatch: boolean = false;
         const expectedRoles: string[] = route.data.expectedRoles;
-        const token = /*this.tokenStorage.getToken()*/this.tokenStorage.getUser().token;
+        const token = this.tokenStorage.getUser().token;
         const userRoles: string[] = this.tokenStorage.getUser().roles;
 
-        for (let i = 0; i < expectedRoles.length; i++) {
-          for (let j = 0; j < userRoles.length; j++) {
-            if (expectedRoles[i] === userRoles[j]) {
-              console.log(expectedRoles[j] + " " + userRoles[i] );     
-              roleMatch = true;
-              break;
-            }
-          }
-        }
+        console.log(userRoles);
   
-        if (roleMatch == false) {
-          this.router.navigate(['']);
+        if (!this.findRolesMatch(expectedRoles, userRoles)) {
+          this.router.navigate(['home']);
           return false;
         }
 
       }
-     /* const tokenPayload = decode(token);*/
+
       return true;
+     }
+
+     findRolesMatch(expectedRoles, userRoles) {
+      for (let i = 0; i < expectedRoles.length; i++) {
+
+        for (let j = 0; j < userRoles.length; j++) {
+
+          if (expectedRoles[i] === userRoles[j]) {
+            return true;
+          }
+        }
+      }
+      return false;
      }
 
 }

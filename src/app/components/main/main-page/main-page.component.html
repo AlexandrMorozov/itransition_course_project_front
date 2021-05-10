@@ -1,0 +1,24 @@
+
+<div>
+    <h2>Most rated campaigns:</h2>
+    <div class="row">
+        <p-card *ngFor="let item of mostRatedCampaigns" header={{item.name}} [style]="{width: '200px'}" styleClass="p-card-shadow">
+            <p>{{item.description}}</p>
+            <p>{{item.rating}}</p>
+            <ng-template pTemplate="footer">
+                <p-button label="Save" icon="pi pi-check"></p-button>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <h2>Recently updated campaigns:</h2>
+    <div class="row">
+        <p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} [style]="{width: '200px'}" styleClass="p-card-shadow">
+            <p>{{item.description}}</p>
+            <ng-template pTemplate="footer">
+                <p-button label="Save" icon="pi pi-check"></p-button>
+            </ng-template>
+        </p-card>
+    </div>
+
+</div>

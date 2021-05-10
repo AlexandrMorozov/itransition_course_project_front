@@ -7,11 +7,9 @@ import { TokenStorageService } from '../tokenstorageservice/token-storage.servic
 })
 export class AuthcheckserviceService {
 
-  constructor(/*private jwtHelper: JwtHelperService,*/ private tokenStorage: TokenStorageService) { }
+  constructor(private tokenStorage: TokenStorageService) { }
 
   isAuthenticated(): boolean {
-
-    //console.log(this.tokenStorage.getToken());
     const token = this.tokenStorage.getToken();
     const helper = new JwtHelperService();
     

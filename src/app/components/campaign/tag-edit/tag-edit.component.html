@@ -1,0 +1,10 @@
+<div> 
+    <tag-input [ngModelOptions]="{standalone: true}" name='tagg' [(ngModel)]='tags' style="margin: 15px" 
+    [identifyBy]="'id'" [displayBy]="'name'" (onAdd)="onAdd($event)" (onRemove)="onRemove($event)">
+    <ng-template let-item="item" name ="templ">
+         {{ item.name }}
+    </ng-template>
+        <tag-input-dropdown name ="dropdown" [autocompleteItems]='autoTags' [identifyBy]="'id'" [displayBy]="'name'" >
+        </tag-input-dropdown>
+    </tag-input>
+</div>
