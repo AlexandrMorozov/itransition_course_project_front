@@ -1,4 +1,5 @@
-export interface Bonus {
+export /*interface*/class Bonus {
+    
     id?: number;
 
     name?: string;

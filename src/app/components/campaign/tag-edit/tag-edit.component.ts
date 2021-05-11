@@ -25,14 +25,14 @@ export class TagEditComponent implements OnInit {
     this.tagService.getAllTags().subscribe(
       data => { 
         //!!!!!
-        var tag: Tag[] = [];
-        for (var i = 0; i < data.tags.length; i++) {
+       // var tag: Tag[] = [];
+       /* for (var i = 0; i < data.tags.length; i++) {
           var t = new Tag;
           t.id = data.tags[i].id;
           t.name = data.tags[i].name;
           tag.push(t);
-        }
-        this.autoTags = tag; },
+        }*/
+        this.autoTags = /*tag;*/data; },
 
       err => {console.log(err);});
   }

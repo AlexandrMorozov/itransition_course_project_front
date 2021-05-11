@@ -1,6 +1,7 @@
 import { Topic } from "./topic";
 import { Tag } from "./tag";
 import { Bonus } from './bonus';
+import { User } from "./user";
 
 export class Campaign {
 
@@ -17,10 +18,12 @@ export class Campaign {
             this.topic = topic;
         }*/
 
+        constructor() {}
+
     
     id: number;
 
-    user;
+    user: User;
     
     name: string;
     

@@ -20,6 +20,13 @@ export class UserserviceService {
     return this.http.get(API_URL + "user/", {responseType: "json", params});
   }
 
+  getUserEssentials(userName: string): Observable<User> {
+
+    const params = new HttpParams().set("name", userName);
+
+    return this.http.get<User>(API_URL + "user/essentials", {responseType: "json", params});
+  }
+
   changeUserName(newUserName: string): Observable<any> {
     const params = new HttpParams().set("name", newUserName);
 

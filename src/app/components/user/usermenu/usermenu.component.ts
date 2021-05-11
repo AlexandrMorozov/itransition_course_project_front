@@ -3,6 +3,8 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { UserserviceService } from '../../../services/userservice.service';
 import { TokenStorageService } from '../../../services/tokenstorageservice/token-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Campaign } from 'src/app/domain/campaign';
+import { Bonus } from 'src/app/domain/bonus';
 /*import { MessageService } from 'primeng/api'*/;
 /*import { CampaignService } from 'src/app/services/campaignservice/campaign.service';*/
 
@@ -25,14 +27,14 @@ export class UsermenuComponent implements OnInit {
   public userControl = new FormControl();
   public mailControl = new FormControl();
 
-  campaigns: any[];
+  campaigns: /*any[]*/Campaign[];
   
-  bonuses: any[];
+  bonuses: /*any[]*/Bonus[];
 
   userName: string;
 
 
-  onCampaignsChange(campaigns: any[]) {
+  onCampaignsChange(campaigns: /*any[]*/Campaign[]) {
     this.campaigns = campaigns;
     console.log(this.campaigns);
   }
@@ -46,7 +48,9 @@ export class UsermenuComponent implements OnInit {
       console.log(route);
      }
 
+     //!!
     updateSingleField(prop: any, control: any): void {
+
       this[prop] = this[control].value;
   
       if (prop === "name") {
@@ -57,10 +61,12 @@ export class UsermenuComponent implements OnInit {
   
     }
   
+    //
     cancelSingleField(prop: string, control: any): void {
       (this[control] as AbstractControl).setValue(this[prop]);
     }
   
+    //
     private changeUserName(newName: string) {
   
       var userObj = this.tokenStorage.getUser();

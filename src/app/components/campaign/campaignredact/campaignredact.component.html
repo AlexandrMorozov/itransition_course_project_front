@@ -3,13 +3,13 @@
     <form
     *ngIf="!isSuccessful"
     name="form"
-    (ngSubmit)="f.form.valid"
+    (ngSubmit)="f.form.valid && onSubmit()"
     #f="ngForm"
     novalidate>
 
-    <!--type="submit"-->
+    <!--type="submit"--><!--onclick="onSubmit()-->
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block" onclick="onSubmit()">Create/Save</button>
+        <button type="submit" class="btn btn-primary btn-block">Create/Save</button>
       </div>
 
         <div class="form-group col-12 col-sm-6 col-md-12">

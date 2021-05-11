@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 //import { UserserviceService } from '../../services/userservice.service';
 import { CampaignService } from 'src/app/services/campaignservice/campaign.service';
 import {Router} from '@angular/router';
+import { Campaign } from 'src/app/domain/campaign';
 
 @Component({
   selector: 'app-campaigntable',
@@ -10,13 +11,13 @@ import {Router} from '@angular/router';
 })
 export class CampaigntableComponent implements OnInit {
 
-  @Output() onCampaignChange = new EventEmitter<any[]>();
+  @Output() onCampaignChange = new EventEmitter</*any[]*/Campaign[]>();
 
-  @Input() campaigns: any[];
+  @Input() campaigns: /*any[]*/Campaign[];
 
-  campaign: any;
+  campaign: /*any*/Campaign;
 
-  selectedCampaigns: any[];
+  selectedCampaigns: /*any[]*/Campaign[];
 
   constructor(private campaignService: CampaignService) { }
 
@@ -41,15 +42,15 @@ export class CampaigntableComponent implements OnInit {
   }
     
   //!
-  deleteProduct(campaign: any) {
+  deleteProduct(campaign: /*any*/Campaign) {
 
-    var campaigns: any[] = [campaign];
+    var campaigns: Campaign[] = [campaign];
 
     this.campaignService.deleteCampaign(campaigns).subscribe(
       data => {
         console.log("succ");
         this.campaigns = this.campaigns.filter(val => val.id !== campaign.id);
-        this.campaign = {};
+        this.campaign = null;
       },
       err => {
         console.log("err");

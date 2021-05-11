@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-//import { TagModel } from 'ngx-chips/core/accessor';
 import { Bonus } from '../../../domain/bonus';
 import { CampaignService } from '../../../services/campaignservice/campaign.service';
 import { DatePipe } from '@angular/common';
-//import {FormBuilder} from "@angular/forms";
 import { Tag } from '../../../domain/tag';
-//import { Topic } from '../../../domain/topic';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserserviceService } from '../../../services/userservice.service';
 import { Campaign } from '../../../domain/campaign';
+import { User } from 'src/app/domain/user';
+import { Topic } from 'src/app/domain/topic';
 
 @Component({
   selector: 'app-campaignredact',
@@ -30,11 +29,12 @@ export class CampaignredactComponent implements OnInit {
 
   tags: Tag[] = [];
 
+  //
   images: any[] = [];
 
-  themes: any[];
+  themes: Topic[];
 
-  selectedTheme: any;
+  selectedTheme: Topic;
 
   form: any = {};
 
@@ -42,9 +42,9 @@ export class CampaignredactComponent implements OnInit {
 
   errorMessage = '';
 
-  campaign: any;
+  campaign: Campaign;
 
-  user: any;
+  user: User;/*&&&&*/
 
   isUpdate: boolean = false;
 
@@ -67,7 +67,7 @@ export class CampaignredactComponent implements OnInit {
 
 
   getActionOwner(userName) {
-    this.userService.getUserAccount(userName).subscribe(
+    this.userService.getUserEssentials(userName).subscribe(
       data => {
         this.user = data;
         console.log(this.user);
@@ -82,15 +82,9 @@ export class CampaignredactComponent implements OnInit {
     this.campaignService.getCampaign(campaign).subscribe(
       data => {
 
-        console.log("1111111111111111");
-        console.log(data);
-
-        console.log(data.id);
-
         this.campaign = data;
         this.bonuses = data.bonuses;
         this.tags = data.tags;
-        //document.getElementById('topic').innerText = data.topic;
         this.selectedTheme = data.topic;
         this.form.name = data.name;
         this.form.date = data.lastDateOfCampaign;
@@ -110,7 +104,7 @@ export class CampaignredactComponent implements OnInit {
 
     var themeName = document.getElementById('topic').innerText;
 
-    var theme;
+    var theme: Topic;
     for (var i = 0; i < this.themes.length; i++) {
       if (this.themes[i].theme === themeName) {
 
@@ -133,7 +127,6 @@ export class CampaignredactComponent implements OnInit {
 
   }
 
-
   reformatTags() {
     for (var i = 0; i < this.tags.length; i++) {
       if (!Number.isInteger(this.tags[i].id)) {
@@ -142,15 +135,11 @@ export class CampaignredactComponent implements OnInit {
     }
   }
 
-  addCampaign(topic, tags/*, formData: FormData*/) {
+  addCampaign(campaign: Campaign, formData: FormData) {
 
     var id: number;
 
-   // console.log(this.user);
-   //console.log(campaign.user);
-
-    this.campaignService.addCampaign(this.form, tags,
-      this.bonuses, topic, this.user/*, formData*/).subscribe(
+    this.campaignService.addCampaign(campaign, formData).subscribe(
       data => { console.log(data), id = data.index; }, 
       err => { console.log(err);});
 
@@ -160,17 +149,16 @@ export class CampaignredactComponent implements OnInit {
   }
 
   //
-  updateCampaign(topic, tags) {
+  updateCampaign(campaign: Campaign, form: FormData) {
 
-
-    this.campaignService.updateCampaign(this.form, tags,
-      this.bonuses, topic, this.user, this.campaign.id/*campaign*/).subscribe(
+    this.campaignService.updateCampaign(campaign, form).subscribe(
         data => { console.log(data) }, 
         err => { console.log(err);});
   }
 
   //
-  /*createCampaign(): Campaign {
+  createCampaign(): Campaign {
+
     var campaign: Campaign = new Campaign();
 
     if (this.isUpdate) {
@@ -182,19 +170,17 @@ export class CampaignredactComponent implements OnInit {
     }
 
     campaign.name = this.form.name;
-    campaign.description = this.form.description;
+    campaign.description = this.form.desc;
     campaign.videoLink = this.form.video;
     campaign.sumOfMoney = this.form.sum;
     campaign.tags = this.tags;
     campaign.bonuses = this.bonuses;
     campaign.topic = this.findSelectedTopic();
-    campaign.user = this.user;
     campaign.lastUpdateDate = this.form.date;
+    campaign.user =  this.user;
 
     return campaign;
-
-  }*/
-
+  }
 
   //
   onSubmit() {
@@ -205,26 +191,14 @@ export class CampaignredactComponent implements OnInit {
 
   var formData = this.prepareImagesForUploading();
 
-  var f: number;
+  var campaign: Campaign = this.createCampaign();
+  console.log(campaign);
 
   if (!this.isUpdate) {
-    f = this.addCampaign(topic, this.tags/*, formData*/);
-    this.campaignService.uploadImages(formData, this.form.name);
+    this.addCampaign(campaign, formData);
   } else {
-    this.updateCampaign(topic, this.tags);
-    this.campaignService.uploadImages(formData, this.form.name);
+    this.updateCampaign(campaign, formData);
   }
-
-
-
-  var sf ="s";
-
-  /*if ( f != null) {
-    var formData = this.prepareImagesForUploading();
-
-    this.campaignService.uploadImages(formData, f).subscribe(
-      data => {console.log(data);}, err => { console.log(err);});
-    }*/
 }
 
   onFilesChange(files: File[]) {
@@ -235,6 +209,7 @@ export class CampaignredactComponent implements OnInit {
     this.bonuses = bonuses;
   }
 
+  //
   onImagesChange(images: any[]) {
     this.images = images;
   }
@@ -246,7 +221,7 @@ export class CampaignredactComponent implements OnInit {
   loadAllCampaignsTopics() {
     this.campaignService.getAllThemes().subscribe(
       data => {
-         this.themes = data.topics;
+         this.themes = data;
 
       console.log(this.themes)},
       err => {console.log(err);});

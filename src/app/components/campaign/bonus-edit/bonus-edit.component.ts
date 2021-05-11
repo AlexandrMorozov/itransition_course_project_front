@@ -30,10 +30,15 @@ export class BonusEditComponent implements OnInit {
 
   saveBonus() {
 
+    console.log(this.bonus);
+
     this.submitted = true;
 
     if (this.bonusIndex == null) {
+
+      this.bonus.id = null;
       this.bonuses.push(this.bonus);
+
     } else {
       this.bonuses[this.bonusIndex] = this.bonus;
     }
@@ -44,20 +49,6 @@ export class BonusEditComponent implements OnInit {
     this.bonusIndex = null;
 
     this.onChange.emit(this.bonuses);
-
-
-        /*if (this.product.name.trim()) {
-            if (this.product.id) {
-                this.products[this.findIndexById(this.product.id)] = this.product;                
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-            }
-            else {
-                this.product.id = this.createId();
-                this.product.image = 'product-placeholder.svg';
-                this.products.push(this.product);
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-            }
-        }*/
   }
 
   deleteSelectedBonuses() {
