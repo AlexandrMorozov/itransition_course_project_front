@@ -1,5 +1,5 @@
 
-export /*interface*/class Topic {
+export class Topic {
   
     id: number;
 

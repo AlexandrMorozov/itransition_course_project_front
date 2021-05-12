@@ -1,56 +1,70 @@
-<!--<div class="card">
-    <p-toolbar styleClass="p-mb-4">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="Unblock" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="" [disabled]="!selectedUsers || !selectedUsers.length"></button>
-            <button pButton pRipple label="Block" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="" [disabled]="!selectedUsers || !selectedUsers.length"></button>
-            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="" [disabled]="!selectedUsers || !selectedUsers.length"></button>
-        </ng-template>
-    </p-toolbar>
+<div class="container">
+    <div class="card">
 
-    <p-table #dt [value]="users" [rows]="10" [paginator]="true" [globalFilterFields]="['name','email','roles','status']"
-        [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Manage Users</h5>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
-                </span>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th pSortableColumn="name">User name <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="roles">Roles <p-sortIcon field="roles"></p-sortIcon></th>
-                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-users>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
-                </td>
-                <td>{{user.name}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.roles}}</td>
-                <td>{{user.isBlocked}}</td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)=""></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUsers(user)"></button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                In total there are {{users ? user.length : 0 }} products.
-            </div>
-        </ng-template>
-    </p-table>
-</div>-->
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Unblock" icon="pi-lock-open" class="p-button-success p-mr-2" (click)="changeUserState(false)" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                <button pButton pRipple label="Block" icon="pi pi-lock" class="p-button-success p-mr-2" (click)="changeUserState(true)" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                <button pButton pRipple label="Admin" icon="pi pi-star" class="p-button-success p-mr-2" (click)="giveAdmin()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+                <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+            </ng-template>
+        </p-toolbar>
+    
+        <p-table #dt [value]="users" [rows]="10" [paginator]="true" [globalFilterFields]="['name','email','roles','status']"
+            [(selection)]="selectedUsers" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">Manage Users</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">User name <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                    <th pSortableColumn="roles">Roles <p-sortIcon field="roles"></p-sortIcon></th>
+                    <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-users>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="selectedUser"></p-tableCheckbox>
+                    </td>
+                    <td>{{selectedUser.name}}</td>
+                    <td>{{selectedUser.email}}</td>
+                    <td>
+                        <div *ngFor="let role of selectedUser.roles">
+                            {{role}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="selectedUser.isEnabled; then active else blocked"></div>   
+                        <ng-template #active>Active</ng-template>  
+                        <ng-template #blocked>Blocked</ng-template>    
+                       <!--{{selectedUser.isEnabled}}-->
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(selectedUser)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    In total there are {{users ? users.length : 0 }} users.
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
 

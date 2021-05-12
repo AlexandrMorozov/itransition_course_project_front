@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Role } from 'src/app/domain/role';
+import { Roles } from 'src/app/domain/roles';
 import { AdminService } from 'src/app/services/admin-service/admin.service';
 import { User } from '../../domain/user';
 import { UserserviceService } from '../../services/userservice.service';
@@ -22,13 +24,18 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.getAllUsers();
+
   }
 
 
-  changeUserState(/*userId: number,*/ isBlocked: boolean) {
+  changeUserState(isBlocked: boolean) {
 
-    this.adminService.blockUsers(/*userId, isBlocked*/this.selectedUsers, isBlocked).subscribe(
+    this.adminService.changeUserState(this.selectedUsers, isBlocked).subscribe(
       data => {
+
+        this.selectedUsers.forEach(function(value) { value.isEnabled = isBlocked });
+        this.selectedUsers = null;
         
       }, err => {
 
@@ -36,12 +43,12 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  deleteUsers(/*userId: number*/users: User[]) {
+  deleteUsers(users: User[]) {
     this.adminService.deleteUsers(users).subscribe(
       data => {
-
-        this.users = this.users.filter(val => val !== this.selectedUser)
-        this.users = [];
+        
+        this.users = this.users.filter(val => !this.selectedUsers.includes(val));
+        this.selectedUsers = null;
 
       }, err => {
         
@@ -49,23 +56,48 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  deleteUser(user: User) {
+
+    var users: User[] = [user];
+
+    this.adminService.deleteUsers(users).subscribe(
+      data => {
+        this.users = this.users.filter(val => (val.id !== user.id));
+        this.selectedUser = null;
+      }, err => { }
+    );
+  }
 
   giveAdmin() {
+    
     this.adminService.giveRoles(this.selectedUsers).subscribe(
       data => {
 
-      }, err => {
-        
-      }
+        this.selectedUsers.forEach(function(value) {
+
+          var res = value.roles.find(element => element.roleName == Roles.ROLE_ADMIN);
+
+           if (res == undefined) {
+             
+            var role = new Role();
+            role.roleName = Roles.ROLE_ADMIN;
+            
+            value.roles.push(role);
+            
+            } 
+
+          });
+
+          this.selectedUsers = null;
+
+      }, err => {}
     );
   }
 
+  //err
   getAllUsers() {
     this.userService.getAllUsers().subscribe(
-      data => {
-        this.users = data;
-      }
-      );
+      data => { this.users = data;});
   }
 
 }

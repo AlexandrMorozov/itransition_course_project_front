@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-//import { UserserviceService } from '../../services/userservice.service';
 import { CampaignService } from 'src/app/services/campaignservice/campaign.service';
-import {Router} from '@angular/router';
 import { Campaign } from 'src/app/domain/campaign';
 
 @Component({

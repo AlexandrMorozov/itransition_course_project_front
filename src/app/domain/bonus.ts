@@ -1,4 +1,4 @@
-export /*interface*/class Bonus {
+export class Bonus {
     
     id?: number;
 

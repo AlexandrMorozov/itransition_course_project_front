@@ -1,6 +1,7 @@
 
-<div>
+<!--<div>
     <h2>Most rated campaigns:</h2>
+
     <div class="row">
         <p-card *ngFor="let item of mostRatedCampaigns" header={{item.name}} [style]="{width: '200px'}" styleClass="p-card-shadow">
             <p>{{item.description}}</p>
@@ -13,7 +14,7 @@
 
     <h2>Recently updated campaigns:</h2>
     <div class="row">
-        <p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} [style]="{width: '200px'}" styleClass="p-card-shadow">
+        <p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} [style]="{width: '230px'}" styleClass="p-card-shadow">
             <p>{{item.description}}</p>
             <ng-template pTemplate="footer">
                 <p-button label="Save" icon="pi pi-check"></p-button>
@@ -21,4 +22,45 @@
         </p-card>
     </div>
 
+</div>-->
+
+<div class="container">
+    <div class="row col-12 col-sm-6 col-md-12">
+
+        <div class="col-12 col-sm-3 col-md-6">
+            <h2>Most rated campaigns:</h2>
+
+            <p-card *ngFor="let item of mostRatedCampaigns" header={{item.name}}
+             [style]="{'width': '25rem', 'margin-bottom': '2em', 'margin-top': '2em'}" class="text-center" styleClass="p-card-shadow">
+             <b>{{item.lastUpdateDate}}</b>
+                <p-rating [(ngModel)]="item.rating" [cancel]=false  [readonly]=true></p-rating>
+                <p>{{item.description}}</p>
+                <a href="{{item.owner.name}}"><b>See more...</b></a>
+            </p-card>
+
+        </div>
+
+
+        <div class="col-12 col-sm-3 col-md-6">
+            <h2>Recently updated campaigns:</h2>
+
+            <p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} 
+            [style]="{'width': '25rem', 'margin-bottom': '2em', 'margin-top': '2em'}" class="text-center" styleClass="p-card-shadow">
+            <b>{{item.lastUpdateDate}}</b>
+                <p-rating [(ngModel)]="item.rating" [cancel]=false  [readonly]=true></p-rating>
+                <p>{{item.description}}</p>
+                <a href="{{item.owner.name}}"><b>See more...</b></a>
+            </p-card>
+            
+            <!--<p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} [style]="{'width': '25rem', 'margin-bottom': '2em'}">
+            <p>{{item.description}}</p>
+            <ng-template pTemplate="footer">
+                <p-button label="Save" icon="pi pi-check"></p-button>
+            </ng-template>
+        </p-card>-->
+
+        </div>
+
+
+    </div>
 </div>

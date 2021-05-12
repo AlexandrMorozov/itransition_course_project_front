@@ -44,7 +44,9 @@
                     <td>{{campaign.sumOfMoney | currency:'USD'}}</td>
                     <td>{{campaign.lastDateOfCampaign}}</td>
                     <td>
-                      <a [routerLink]="['campaign', campaign.name, 'edit']"> <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button></a>
+                      <a [routerLink]="['campaign', campaign.name, 'edit']">
+                           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button>
+                        </a>
                       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(campaign)"></button>
                     </td>
                 </tr>

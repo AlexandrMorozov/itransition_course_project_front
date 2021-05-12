@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-/*import { LoginComponent } from '../login/login.component';
-import { registerLocaleData } from '@angular/common';*/
+import { GlobalConstants } from '../../common/global-constants';
 
-const AUTH_API = 'http://localhost:8080/auth/';
+const API_URL = GlobalConstants.apiURL;
+const httpOptions = GlobalConstants.httpOptions;
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials): Observable<any> {
-    return this.http.post(AUTH_API + "authentication", {
+    return this.http.post(API_URL + "/auth/authentication", {
       username: credentials.username,
       password: credentials.password
     }, httpOptions);
@@ -26,7 +23,7 @@ export class AuthService {
 
 
   register(user): Observable<any> {
-    return this.http.post(AUTH_API + 'registration', {
+    return this.http.post(API_URL + '/auth/registration', {
       username: user.username,
       email: user.email,
       password: user.password

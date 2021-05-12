@@ -19,7 +19,6 @@ export class Campaign {
         }*/
 
         constructor() {}
-
     
     id: number;
 
@@ -41,7 +40,7 @@ export class Campaign {
     
     bonuses: Bonus[];
     
-   // pictures: any[];
+    pictures: any[];//
     
     topic: Topic;
 

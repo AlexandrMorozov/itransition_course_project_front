@@ -1,0 +1,99 @@
+<div class="container">
+
+    <div class="container text-center">
+        <div>
+            <h1>Campaign Name</h1>
+        </div>
+
+        <div>
+            <div>
+                <div>Average rating:</div>
+                <p-rating stars=5 [(ngModel)]="avgRating" readonly=true></p-rating>
+            </div>
+            <div *ngIf="isLoggedIn">
+                <div>Your personal rating:</div>
+                <p-rating stars=5 [(ngModel)]="personalRating" readonly="" (onRate)="rateCampaign($event)"></p-rating>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row col-12 col-sm-6 col-md-12" style="background-color: burlywood;">
+
+
+        <div class="col-12 col-sm-6 col-md-8" style="background-color: cadetblue;">
+            <div class="embed-responsive embed-responsive-4by3">
+                <iframe width="500" height="315" src="https://youtu.be/9TavGqN4vII" class="embed-responsive-item"></iframe>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4" style="background-color: crimson;">
+
+            <div class="text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                <h3><b>Topic: TopicName </b></h3>
+            </div>
+
+            <div>
+                <p-progressBar showValue="false" [value]="progressRate"></p-progressBar>
+            </div>
+
+            <div class="">
+                <div>
+                    <h4 style="margin-top: 10px;"><b>Received: US$ XXXXXX</b></h4>
+                    <h6><i>Pleged of US$ XXXXXX goal</i></h6>
+                </div>
+            </div>
+
+            <div class="">
+                <div>
+                    <h4 style="margin-top: 10px;"><b>Last day of campaign: MM.DD.YYYY</b></h4>
+                    <h6><i>Days to go: XXX</i></h6>
+                </div>
+            </div>
+
+            <div>
+                <div class="text-center"><h4><b>Description: </b></h4> </div>
+                <div>
+                    <h5>
+                        <p>
+                            Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal
+                        </p>
+                    </h5>
+                </div>
+            </div>
+            <div class="text-center col-12 col-sm-6 col-md-12">
+                <button pButton type="button" label="Donate" class="p-button-lg" style="width: 200px;"></button>
+            </div>
+        </div>
+
+    </div>
+
+    <!--tags-->
+
+   <div> 
+        <tag-input name='tagg' style="margin: 15px" 
+        [identifyBy]="'id'" [displayBy]="'name'" class="row col-12 col-sm-6 col-md-6">
+        <ng-template let-item="item" name ="templ">
+             {{ item.name }}
+        </ng-template>
+            <tag-input-dropdown name ="dropdown" [autocompleteItems]='' [identifyBy]="'id'" [displayBy]="'name'" >
+            </tag-input-dropdown>
+        </tag-input>
+    </div>
+
+    <!--bonuses-->
+
+
+   <!-- <h5>Item Navigators without Thumbnails</h5>
+<p-galleria [containerStyle]="{'max-width': '640px'}">
+    <ng-template pTemplate="item" let-item>
+        <img [src]="item.previewImageSrc" style="width: 100%; display: block;" />
+    </ng-template>
+    <ng-template pTemplate="thumbnail" let-item>
+        <div class="p-grid p-nogutter p-justify-center">
+            <img [src]="item.thumbnailImageSrc" style="display: block;" />
+        </div>
+    </ng-template>
+</p-galleria>-->
+
+</div>

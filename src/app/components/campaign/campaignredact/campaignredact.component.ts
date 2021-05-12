@@ -65,6 +65,15 @@ export class CampaignredactComponent implements OnInit {
     }
   }
 
+  loadAllCampaignsTopics() {
+    this.campaignService.getAllThemes().subscribe(
+      data => {
+         this.themes = data;
+
+      console.log(this.themes)},
+      err => {console.log(err);});
+  }
+
 
   getActionOwner(userName) {
     this.userService.getUserEssentials(userName).subscribe(
@@ -128,32 +137,26 @@ export class CampaignredactComponent implements OnInit {
   }
 
   reformatTags() {
-    for (var i = 0; i < this.tags.length; i++) {
-      if (!Number.isInteger(this.tags[i].id)) {
-        this.tags[i].id = null;
+
+    this.tags.forEach(function(tag) { 
+      if(!Number.isInteger(tag.id)) { 
+        tag.id = null;
       }
-    }
+    });
+
   }
 
   addCampaign(campaign: Campaign, formData: FormData) {
-
-    var id: number;
-
     this.campaignService.addCampaign(campaign, formData).subscribe(
-      data => { console.log(data), id = data.index; }, 
-      err => { console.log(err);});
-
-      console.log(id);
-
-      return id;
+      data => { console.log(data); this.router.navigate['user/'+ this.user.name]; }, 
+      err => { console.log(err); });
   }
 
   //
   updateCampaign(campaign: Campaign, form: FormData) {
-
     this.campaignService.updateCampaign(campaign, form).subscribe(
-        data => { console.log(data) }, 
-        err => { console.log(err);});
+        data => { console.log(data); this.router.navigate['user/'+ this.user.name]; }, 
+        err => { console.log(err);} );
   }
 
   //
@@ -163,10 +166,8 @@ export class CampaignredactComponent implements OnInit {
 
     if (this.isUpdate) {
       campaign.id = this.campaign.id;
-      campaign.lastUpdateDate = new Date();
     } else {
       campaign.id = null;
-      campaign.lastUpdateDate = this.form.date;
     }
 
     campaign.name = this.form.name;
@@ -176,7 +177,8 @@ export class CampaignredactComponent implements OnInit {
     campaign.tags = this.tags;
     campaign.bonuses = this.bonuses;
     campaign.topic = this.findSelectedTopic();
-    campaign.lastUpdateDate = this.form.date;
+    campaign.lastUpdateDate = new Date();
+    campaign.lastDateOfCampaign = this.form.date;
     campaign.user =  this.user;
 
     return campaign;
@@ -186,13 +188,11 @@ export class CampaignredactComponent implements OnInit {
   onSubmit() {
 
   this.reformatTags();
-  
-  var topic = this.findSelectedTopic();
 
   var formData = this.prepareImagesForUploading();
-
   var campaign: Campaign = this.createCampaign();
-  console.log(campaign);
+
+  formData.append("campaign", JSON.stringify(campaign));
 
   if (!this.isUpdate) {
     this.addCampaign(campaign, formData);
@@ -218,13 +218,5 @@ export class CampaignredactComponent implements OnInit {
     this.tags = tags;
   }
 
-  loadAllCampaignsTopics() {
-    this.campaignService.getAllThemes().subscribe(
-      data => {
-         this.themes = data;
-
-      console.log(this.themes)},
-      err => {console.log(err);});
-  }
 
 }

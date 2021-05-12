@@ -1,13 +1,12 @@
 <div>
-<!--onSubmit()-->
+
     <form
     *ngIf="!isSuccessful"
     name="form"
     (ngSubmit)="f.form.valid && onSubmit()"
     #f="ngForm"
     novalidate>
-
-    <!--type="submit"--><!--onclick="onSubmit()-->
+    
     <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block">Create/Save</button>
       </div>
@@ -69,7 +68,7 @@
             <textarea pInputTextarea class="form-control" id="exampleFormControlTextarea1" rows="2" maxlength="150"
             name="desc"
             [(ngModel)]="form.desc"
-            minlength="30"
+            minlength="15"
             maxlength="150"
             required
             #desc="ngModel"></textarea>
@@ -101,10 +100,6 @@
 
    <div>
         <h3><b>Tags: </b></h3>      
-        <!--<tag-input [(ngModel)]='tags' style="margin: 15px">
-            <tag-input-dropdown [autocompleteItems]='autoTags' >
-            </tag-input-dropdown>
-        </tag-input>-->
         <app-tag-edit (onTagChange)="onTagsChange($event)" [tags]="tags"></app-tag-edit>
     </div>
 

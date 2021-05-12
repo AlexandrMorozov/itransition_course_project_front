@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Bonus } from 'src/app/domain/bonus';
+import { GlobalConstants } from '../../common/global-constants';
 
-const API_URL = 'http://localhost:8080/campaign';
+const API_URL = GlobalConstants.apiURL;
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+const httpOptions = GlobalConstants.httpOptions;
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,7 @@ export class BonusServiceService {
   addBonus(bonus: Bonus) {
 
     const params = new HttpParams().set("bonus", JSON.stringify(bonus));
-    return this.http.get("http://localhost:8080/bonuses/add", {params});
+    return this.http.get(API_URL + "/bonuses/add", {params});
     
   }
 
@@ -30,7 +28,5 @@ export class BonusServiceService {
   deleteBonuses() {
 
   }
-
-
 
 }

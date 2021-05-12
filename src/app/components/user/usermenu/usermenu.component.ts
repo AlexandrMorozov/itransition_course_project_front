@@ -5,8 +5,6 @@ import { TokenStorageService } from '../../../services/tokenstorageservice/token
 import { ActivatedRoute, Router } from '@angular/router';
 import { Campaign } from 'src/app/domain/campaign';
 import { Bonus } from 'src/app/domain/bonus';
-/*import { MessageService } from 'primeng/api'*/;
-/*import { CampaignService } from 'src/app/services/campaignservice/campaign.service';*/
 
 @Component({
   selector: 'app-usermenu',
@@ -27,14 +25,14 @@ export class UsermenuComponent implements OnInit {
   public userControl = new FormControl();
   public mailControl = new FormControl();
 
-  campaigns: /*any[]*/Campaign[];
+  campaigns: Campaign[];
   
-  bonuses: /*any[]*/Bonus[];
+  bonuses: Bonus[];
 
   userName: string;
 
 
-  onCampaignsChange(campaigns: /*any[]*/Campaign[]) {
+  onCampaignsChange(campaigns: Campaign[]) {
     this.campaigns = campaigns;
     console.log(this.campaigns);
   }
@@ -42,7 +40,7 @@ export class UsermenuComponent implements OnInit {
 
 
   constructor(private userService: UserserviceService, 
-    private tokenStorage: TokenStorageService, private route: ActivatedRoute, private router: Router/*, private messageService: MessageService*/) {
+    private tokenStorage: TokenStorageService, private route: ActivatedRoute, private router: Router) {
       this.userName = route.snapshot.params['username'];
       console.log(this.userName);
       console.log(route);
@@ -116,13 +114,13 @@ export class UsermenuComponent implements OnInit {
         this.mailControl = new FormControl(data.email);
 
         this.campaigns = this.user.campaigns;
+        this.bonuses = this.user.bonuses;
 
         console.log(data.campaigns);
 
       },
       err => {
         this.router.navigate(['home']);
-        //this.messageService.add({severity:'', summary: 'Failure', detail: JSON.parse(err.error).message, life: 2000});
       }
     );
   }

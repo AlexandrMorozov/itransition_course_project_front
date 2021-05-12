@@ -25,7 +25,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
-/*import { MessageService } from 'primeng/api';*/
+import { RatingModule } from 'primeng/rating';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { CarouselModule } from 'primeng/carousel';
+
+import {GalleriaModule} from 'primeng/galleria';
 //ng-bootstrap(for tabs)
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //ngeat(edit in place)
@@ -41,9 +45,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { JwtHelperService, JwtModule } from "@auth0/angular-jwt";
 import { BonusEditComponent } from './components/campaign/bonus-edit/bonus-edit.component';
 import { MainPageComponent } from './components/main/main-page/main-page.component';
-//import { MainPageDirective } from './directives/main-page.directive';
 import { TagEditComponent } from './components/campaign/tag-edit/tag-edit.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { CampaignViewComponent } from './components/campaign-view/campaign-view/campaign-view.component';
+import { GalleriaViewComponent } from './components/campaign-view/galleria-view/galleria-view.component';
+import { BonusesViewComponent } from './components/campaign-view/bonuses-view/bonuses-view.component';
 
 export function tokenGetter() {
   return sessionStorage.getItem("auth-token");
@@ -62,9 +68,11 @@ export function tokenGetter() {
     ImgInputComponent,
     BonusEditComponent,
     MainPageComponent,
-    //MainPageDirective,
     TagEditComponent,
-    AdminComponent
+    AdminComponent,
+    CampaignViewComponent,
+    GalleriaViewComponent,
+    BonusesViewComponent
     
   ],
   imports: [
@@ -82,7 +90,11 @@ export function tokenGetter() {
     ToolbarModule,
     InputTextModule,
     CardModule,
-   /* MessageService,*/
+    RatingModule,
+    ProgressBarModule,
+    ButtonModule,
+    GalleriaModule,
+    CarouselModule,
     //ng-bootstrap(for tabs)
     NgbModule,
     //ngeat(edit in place)
