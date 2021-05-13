@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CampaignService } from 'src/app/services/campaignservice/campaign.service';
+import { CampaignService } from 'src/app/services/component-services/campaignservice/campaign.service';
 import { Campaign } from 'src/app/domain/campaign';
+import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campaigntable',
@@ -9,15 +11,17 @@ import { Campaign } from 'src/app/domain/campaign';
 })
 export class CampaigntableComponent implements OnInit {
 
-  @Output() onCampaignChange = new EventEmitter</*any[]*/Campaign[]>();
+  @Output() onCampaignChange = new EventEmitter<Campaign[]>();
 
-  @Input() campaigns: /*any[]*/Campaign[];
+  @Input() campaigns: Campaign[];
 
-  campaign: /*any*/Campaign;
+  campaign: Campaign;
 
-  selectedCampaigns: /*any[]*/Campaign[];
+  selectedCampaigns: Campaign[];
 
-  constructor(private campaignService: CampaignService) { }
+  constructor(private campaignService: CampaignService, 
+    private tokenService: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -31,7 +35,8 @@ export class CampaigntableComponent implements OnInit {
         this.selectedCampaigns = null;
       },
       err => {
-        console.log("fail");
+        this.tokenService.signOut();
+        this.router.navigate(['home']);
       }
     );
 
@@ -40,7 +45,7 @@ export class CampaigntableComponent implements OnInit {
   }
     
   //!
-  deleteProduct(campaign: /*any*/Campaign) {
+  deleteProduct(campaign: Campaign) {
 
     var campaigns: Campaign[] = [campaign];
 
@@ -51,7 +56,8 @@ export class CampaigntableComponent implements OnInit {
         this.campaign = null;
       },
       err => {
-        console.log("err");
+        this.tokenService.signOut();
+        this.router.navigate(['home']);
       }
     );
 

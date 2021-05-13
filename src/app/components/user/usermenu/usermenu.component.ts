@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { UserserviceService } from '../../../services/userservice.service';
-import { TokenStorageService } from '../../../services/tokenstorageservice/token-storage.service';
+import { UserService } from '../../../services/component-services/user-service/user.service';
+import { TokenStorageService } from '../../../services/authorization/tokenstorageservice/token-storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Campaign } from 'src/app/domain/campaign';
 import { Bonus } from 'src/app/domain/bonus';
@@ -39,11 +39,10 @@ export class UsermenuComponent implements OnInit {
 
 
 
-  constructor(private userService: UserserviceService, 
-    private tokenStorage: TokenStorageService, private route: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, 
+    private tokenStorage: TokenStorageService, 
+    private route: ActivatedRoute, private router: Router) {
       this.userName = route.snapshot.params['username'];
-      console.log(this.userName);
-      console.log(route);
      }
 
      //!!
@@ -59,12 +58,10 @@ export class UsermenuComponent implements OnInit {
   
     }
   
-    //
     cancelSingleField(prop: string, control: any): void {
       (this[control] as AbstractControl).setValue(this[prop]);
     }
   
-    //
     private changeUserName(newName: string) {
   
       var userObj = this.tokenStorage.getUser();
@@ -79,8 +76,10 @@ export class UsermenuComponent implements OnInit {
           console.log(this.tokenStorage.getUser().name);
       },
       err => {
-        console.log(err);
-        this.content = JSON.parse(err.error).message;
+       /* console.log(err);
+        this.content = JSON.parse(err.error).message;*/
+        this.tokenStorage.signOut();
+        this.router.navigate(['home']);
       });
     }
   
@@ -95,8 +94,12 @@ export class UsermenuComponent implements OnInit {
           this.tokenStorage.saveUser(userObj);
       },
       err => {
-        console.log(err);
-        this.content = JSON.parse(err.error).message;
+
+        this.tokenStorage.signOut();
+        this.router.navigate(['home']);
+
+       /* console.log(err);
+        this.content = JSON.parse(err.error).message;*/
       });
     }
 
@@ -116,10 +119,10 @@ export class UsermenuComponent implements OnInit {
         this.campaigns = this.user.campaigns;
         this.bonuses = this.user.bonuses;
 
-        console.log(data.campaigns);
-
       },
       err => {
+        console.log( err.status);
+        this.tokenStorage.signOut();
         this.router.navigate(['home']);
       }
     );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Bonus } from 'src/app/domain/bonus';
-import { GlobalConstants } from '../../common/global-constants';
+import { GlobalConstants } from '../../../common/global-constants';
 
 const API_URL = GlobalConstants.apiURL;
 

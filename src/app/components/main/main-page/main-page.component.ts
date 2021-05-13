@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MainPageService } from '../../../services/main-page/main-page.service';
+import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
+import { MainPageService } from '../../../services/component-services/main-page/main-page.service';
 
 @Component({
   selector: 'app-main-page',
@@ -8,7 +9,8 @@ import { MainPageService } from '../../../services/main-page/main-page.service';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor(private mainPageSrvice: MainPageService) { }
+  constructor(private mainPageSrvice: MainPageService,
+     private tokenService: TokenStorageService) { }
 
   mostRatedCampaigns: any[];
 
@@ -27,7 +29,7 @@ export class MainPageComponent implements OnInit {
         this.mostRatedCampaigns = data;
         console.log(data);
       }, err => {
-        console.log(err);
+        this.tokenService.signOut();
       }
     );
   }
@@ -38,7 +40,7 @@ export class MainPageComponent implements OnInit {
         this.lastUpdatedCampaigns = data;
         console.log(data.campaigns);
       }, err => {
-        console.log(err);
+        this.tokenService.signOut();
       }
     );
   }

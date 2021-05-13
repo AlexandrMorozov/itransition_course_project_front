@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Roles } from 'src/app/domain/roles';
-import { AuthcheckserviceService } from '../authcheckservice/authcheckservice.service';
-import { TokenStorageService } from '../tokenstorageservice/token-storage.service';
+import { AuthcheckserviceService } from '../../authorization/authcheckservice/authcheckservice.service';
+import { TokenStorageService } from '../../authorization/tokenstorageservice/token-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +19,6 @@ export class UserContentGuardService implements CanActivate {
     var targetName = route.params.username;
     var userName = this.tokenStorage.getUser().name;
     const userRoles: string[] = this.tokenStorage.getUser().roles;
-
-    console.log("!!!!!!!!!!!!!!");
-    console.log(targetName);
-    console.log(userName);
     
     var isAdmin = userRoles.find(role => role == Roles.ROLE_ADMIN);
 

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectableRowDblClick } from 'primeng/table';
+import { find } from 'rxjs/operators';
 import { Role } from 'src/app/domain/role';
 import { Roles } from 'src/app/domain/roles';
-import { AdminService } from 'src/app/services/admin-service/admin.service';
+import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
+import { AdminService } from 'src/app/services/component-services/admin-service/admin.service';
 import { User } from '../../domain/user';
-import { UserserviceService } from '../../services/userservice.service';
+import { UserService } from '../../services/component-services/user-service/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -13,8 +16,9 @@ import { UserserviceService } from '../../services/userservice.service';
 
 export class AdminComponent implements OnInit {
 
-  constructor(private userService: UserserviceService,
-     private adminService: AdminService) { }
+  constructor(private userService: UserService, 
+    private adminService: AdminService,
+     private tokenService: TokenStorageService) { }
 
   users: User[] = new Array();
 
@@ -23,36 +27,32 @@ export class AdminComponent implements OnInit {
   selectedUser: User;
 
   ngOnInit(): void {
-
     this.getAllUsers();
-
   }
 
 
-  changeUserState(isBlocked: boolean) {
+  changeUserState(isEnabled: boolean) {
 
-    this.adminService.changeUserState(this.selectedUsers, isBlocked).subscribe(
+    console.log(isEnabled);
+    this.adminService.changeUserState(this.selectedUsers, isEnabled).subscribe(
       data => {
-
-        this.selectedUsers.forEach(function(value) { value.isEnabled = isBlocked });
+        //
         this.selectedUsers = null;
+        window.location.reload()
         
-      }, err => {
-
-      }
+      }, err => {this.tokenService.signOut();}
     );
   }
 
-  deleteUsers(users: User[]) {
-    this.adminService.deleteUsers(users).subscribe(
+  deleteUsers() {
+
+    this.adminService.deleteUsers(this.selectedUsers).subscribe(
       data => {
         
         this.users = this.users.filter(val => !this.selectedUsers.includes(val));
         this.selectedUsers = null;
 
-      }, err => {
-        
-      }
+      }, err => {this.tokenService.signOut();}
     );
   }
 
@@ -64,7 +64,7 @@ export class AdminComponent implements OnInit {
       data => {
         this.users = this.users.filter(val => (val.id !== user.id));
         this.selectedUser = null;
-      }, err => { }
+      }, err => {this.tokenService.signOut();}
     );
   }
 
@@ -80,24 +80,24 @@ export class AdminComponent implements OnInit {
            if (res == undefined) {
              
             var role = new Role();
+
             role.roleName = Roles.ROLE_ADMIN;
-            
-            value.roles.push(role);
-            
+  
+            value.roles.push(role);   
             } 
 
           });
 
           this.selectedUsers = null;
 
-      }, err => {}
+      }, err => {this.tokenService.signOut();}
     );
   }
 
-  //err
   getAllUsers() {
     this.userService.getAllUsers().subscribe(
-      data => { this.users = data;});
+      data => {this.users = data;},
+       err => {this.tokenService.signOut();});
   }
 
 }

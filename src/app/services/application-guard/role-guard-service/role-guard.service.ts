@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthcheckserviceService } from '../authcheckservice/authcheckservice.service';
-import { TokenStorageService } from '../tokenstorageservice/token-storage.service';
+import { AuthcheckserviceService } from '../../authorization/authcheckservice/authcheckservice.service';
+import { TokenStorageService } from '../../authorization/tokenstorageservice/token-storage.service';
 /*import decode from 'jwt-decode';*/
 
 @Injectable({

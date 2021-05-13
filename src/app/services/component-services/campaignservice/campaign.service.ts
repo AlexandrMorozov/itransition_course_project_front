@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Campaign } from 'src/app/domain/campaign';
 import { Topic } from 'src/app/domain/topic';
-import { GlobalConstants } from '../../common/global-constants';
+import { GlobalConstants } from '../../../common/global-constants';
 
 const API_URL = GlobalConstants.apiURL;
 

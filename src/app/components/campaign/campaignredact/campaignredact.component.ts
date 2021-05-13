@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Bonus } from '../../../domain/bonus';
-import { CampaignService } from '../../../services/campaignservice/campaign.service';
+import { CampaignService } from '../../../services/component-services/campaignservice/campaign.service';
 import { DatePipe } from '@angular/common';
 import { Tag } from '../../../domain/tag';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserserviceService } from '../../../services/userservice.service';
+import { UserService } from '../../../services/component-services/user-service/user.service';
 import { Campaign } from '../../../domain/campaign';
 import { User } from 'src/app/domain/user';
 import { Topic } from 'src/app/domain/topic';
+import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
 
 @Component({
   selector: 'app-campaignredact',
@@ -18,8 +19,9 @@ import { Topic } from 'src/app/domain/topic';
 export class CampaignredactComponent implements OnInit {
 
   constructor(private campaignService: CampaignService,
-     private datePipe: DatePipe, private userService: UserserviceService,
-      private route: ActivatedRoute, private router: Router) { }
+      private userService: UserService,
+      private route: ActivatedRoute, private router: Router,
+       private tokenService: TokenStorageService) { }
 
   date = Date.now();
 
@@ -29,7 +31,6 @@ export class CampaignredactComponent implements OnInit {
 
   tags: Tag[] = [];
 
-  //
   images: any[] = [];
 
   themes: Topic[];
@@ -44,7 +45,7 @@ export class CampaignredactComponent implements OnInit {
 
   campaign: Campaign;
 
-  user: User;/*&&&&*/
+  user: User;
 
   isUpdate: boolean = false;
 
@@ -71,7 +72,10 @@ export class CampaignredactComponent implements OnInit {
          this.themes = data;
 
       console.log(this.themes)},
-      err => {console.log(err);});
+      err => {
+        this.tokenService.signOut();
+        this.router.navigate(['home']);
+      });
   }
 
 
@@ -81,6 +85,7 @@ export class CampaignredactComponent implements OnInit {
         this.user = data;
         console.log(this.user);
       }, err => {
+        this.tokenService.signOut();
         this.router.navigate(['home']);
       }
     );
@@ -103,6 +108,7 @@ export class CampaignredactComponent implements OnInit {
 
       }, err => {
         this.router.navigate(['home']);
+        this.tokenService.signOut();
       }
     );
 
@@ -148,14 +154,14 @@ export class CampaignredactComponent implements OnInit {
 
   addCampaign(campaign: Campaign, formData: FormData) {
     this.campaignService.addCampaign(campaign, formData).subscribe(
-      data => { console.log(data); this.router.navigate['user/'+ this.user.name]; }, 
+      data => {console.log("qq"); this.router.navigate['home']; }, 
       err => { console.log(err); });
   }
 
   //
   updateCampaign(campaign: Campaign, form: FormData) {
     this.campaignService.updateCampaign(campaign, form).subscribe(
-        data => { console.log(data); this.router.navigate['user/'+ this.user.name]; }, 
+        data => {console.log("user/" + this.user.name); this.router.navigate['home']; }, 
         err => { console.log(err);} );
   }
 
@@ -199,6 +205,9 @@ export class CampaignredactComponent implements OnInit {
   } else {
     this.updateCampaign(campaign, formData);
   }
+
+  this.router.navigate['home'];
+
 }
 
   onFilesChange(files: File[]) {

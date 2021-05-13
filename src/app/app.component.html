@@ -1,38 +1,5 @@
 <div id="app">
-  <!--
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="#" class="navbar-brand"></a>
-    <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item">
-        <a href="#" class="nav-link" routerLink="home">Home </a>
-      </li>
-      <li class="nav-item">
-        <a href="/campaignnew" class="nav-link" routerLink="campaignnew">Test</a>
-      </li>
-      <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
-      <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
-      </li>
-      <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Login</a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-      <li class="nav-item">
-        <a href="/user" class="nav-link" [routerLink]="['user', username]">{{ username }}</a>
-      </li>
-      <li class="nav-item">
-        <a href class="nav-link" (click)="logout()">LogOut</a>
-      </li>
-    </ul>
-  </nav>
--->
+ 
 <nav class="navbar navbar-expand navbar navbar-dark bg-primary">
   <a class="navbar-brand" href="/home" routerLink="home"></a>
   <form class="form-inline">
@@ -41,7 +8,7 @@
   </form>
   <ul class="navbar-nav mr-auto" *ngIf="isAdmin">
     <li class="nav-item">
-      <a href="#" routerLink="" class="nav-link">Admin</a>
+      <a href="/admin" [routerLink]="['admin', username]" class="nav-link">Admin</a>
     </li>
   </ul>
 
@@ -63,8 +30,6 @@
     </li>
   </ul>
 </nav>
-
-
 
   <div class="container">
     <router-outlet></router-outlet>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Bonus } from '../../../domain/bonus';
-import {BonusServiceService} from '../../../services/bonus-service/bonus-service.service';
+import {BonusServiceService} from '../../../services/component-services/bonus-service/bonus-service.service';
 
 @Component({
   selector: 'app-bonus-edit',
