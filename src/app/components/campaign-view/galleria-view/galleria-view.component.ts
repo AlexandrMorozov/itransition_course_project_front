@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-galleria-view',
@@ -9,9 +9,8 @@ export class GalleriaViewComponent implements OnInit {
 
   constructor() { }
 
-  images: any[];
+  @Input() images: any[];
 
-  //&&&
   responsiveOptions:any[] = [
     {
         breakpoint: '1024px',
@@ -29,5 +28,11 @@ export class GalleriaViewComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  getCampaignImages() {
+    
+  }
+
+
 
 }

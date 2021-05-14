@@ -7,9 +7,6 @@ import { GlobalConstants } from '../../../common/global-constants';
 
 const API_URL = GlobalConstants.apiURL;
 
-const httpOptions = GlobalConstants.httpOptions;
-
-
 @Injectable({
   providedIn: 'root'
 })

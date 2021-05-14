@@ -35,7 +35,7 @@
              <b>{{item.lastUpdateDate}}</b>
                 <p-rating [(ngModel)]="item.rating" [cancel]=false  [readonly]=true></p-rating>
                 <p>{{item.description}}</p>
-                <a href="{{item.owner.name}}"><b>See more...</b></a>
+                <a href="campaign/{{item.owner.name}}/view"><b>See more...</b></a>
             </p-card>
 
         </div>
@@ -49,15 +49,8 @@
             <b>{{item.lastUpdateDate}}</b>
                 <p-rating [(ngModel)]="item.rating" [cancel]=false  [readonly]=true></p-rating>
                 <p>{{item.description}}</p>
-                <a href="{{item.owner.name}}"><b>See more...</b></a>
+                <a href="campaign/{{item.owner.name}}/view"><b>See more...</b></a>
             </p-card>
-            
-            <!--<p-card *ngFor="let item of lastUpdatedCampaigns" header={{item.name}} [style]="{'width': '25rem', 'margin-bottom': '2em'}">
-            <p>{{item.description}}</p>
-            <ng-template pTemplate="footer">
-                <p-button label="Save" icon="pi pi-check"></p-button>
-            </ng-template>
-        </p-card>-->
 
         </div>
 

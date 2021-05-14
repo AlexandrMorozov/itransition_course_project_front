@@ -10,10 +10,10 @@ import { UserContentGuardService } from './services/application-guard/content-gu
 import { Roles } from './domain/roles';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuardService } from './services/application-guard/admin-guard-service/admin-guard.service';
+import { CampaignViewComponent } from './components/campaign-view/campaign-view/campaign-view.component';
 
 
 const routes: Routes = [
-  /*{ path: '1111', component: CampaignViewComponent },*/
   { path: 'home', component: MainPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'user/:username/campaign/:campaign/edit', component: CampaignredactComponent,
    canActivate: [RoleGuardService, UserContentGuardService],
     data: {expectedRoles: [Roles.ROLE_USER, Roles.ROLE_ADMIN]}},
-
+  { path: 'campaign/:campaign/view', component: CampaignViewComponent, },
   { path: 'user/:username', component: UsermenuComponent, 
   canActivate: [RoleGuardService, UserContentGuardService], 
   data: {expectedRoles: [Roles.ROLE_USER, Roles.ROLE_ADMIN]}},

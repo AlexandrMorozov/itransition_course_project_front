@@ -2,6 +2,7 @@ import { Topic } from "./topic";
 import { Tag } from "./tag";
 import { Bonus } from './bonus';
 import { User } from "./user";
+import { Picture } from "./picture";
 
 export class Campaign {
 
@@ -31,6 +32,8 @@ export class Campaign {
     videoLink: string;
     
     sumOfMoney: number;
+
+    sumOfFundedMoney: number;
     
     lastUpdateDate: Date;
     
@@ -40,7 +43,7 @@ export class Campaign {
     
     bonuses: Bonus[];
     
-    pictures: any[];//
+    pictures: /*any[]*/Picture[];
     
     topic: Topic;
 

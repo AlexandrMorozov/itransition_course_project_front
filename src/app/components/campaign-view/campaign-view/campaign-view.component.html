@@ -2,7 +2,7 @@
 
     <div class="container text-center">
         <div>
-            <h1>Campaign Name</h1>
+            <h1>{{name}}</h1>
         </div>
 
         <div>
@@ -18,19 +18,19 @@
     </div>
 
 
-    <div class="row col-12 col-sm-6 col-md-12" style="background-color: burlywood;">
+    <div class="row col-12 col-sm-6 col-md-12">
 
 
-        <div class="col-12 col-sm-6 col-md-8" style="background-color: cadetblue;">
+        <div class="col-12 col-sm-6 col-md-8">
             <div class="embed-responsive embed-responsive-4by3">
-                <iframe width="500" height="315" src="https://youtu.be/9TavGqN4vII" class="embed-responsive-item"></iframe>
+                <iframe width="500" height="315" [src]='videoLink' class="embed-responsive-item"></iframe>
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-4" style="background-color: crimson;">
+        <div class="col-12 col-sm-6 col-md-4">
 
             <div class="text-center" style="margin-top: 10px; margin-bottom: 10px;">
-                <h3><b>Topic: TopicName </b></h3>
+                <h3><b>Topic: {{topic.theme}} </b></h3>
             </div>
 
             <div>
@@ -39,15 +39,14 @@
 
             <div class="">
                 <div>
-                    <h4 style="margin-top: 10px;"><b>Received: US$ XXXXXX</b></h4>
-                    <h6><i>Pleged of US$ XXXXXX goal</i></h6>
+                    <h4 style="margin-top: 10px;"><b>Received: US$ {{sumOfFundedMoney}}</b></h4>
+                    <h6><i>Pleged of US$ {{sumOfMoney}} goal</i></h6>
                 </div>
             </div>
 
             <div class="">
                 <div>
-                    <h4 style="margin-top: 10px;"><b>Last day of campaign: MM.DD.YYYY</b></h4>
-                    <h6><i>Days to go: XXX</i></h6>
+                    <h4 style="margin-top: 10px;"><b>Last day of campaign: {{lastDateOfCampaign}}</b></h4>
                 </div>
             </div>
 
@@ -56,7 +55,7 @@
                 <div>
                     <h5>
                         <p>
-                            Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal Lorem ipsuom lalalalalal
+                            {{description}}
                         </p>
                     </h5>
                 </div>
@@ -68,8 +67,6 @@
 
     </div>
 
-    <!--tags-->
-
    <div> 
         <tag-input name='tagg' style="margin: 15px" 
         [identifyBy]="'id'" [displayBy]="'name'" class="row col-12 col-sm-6 col-md-6">
@@ -80,6 +77,9 @@
             </tag-input-dropdown>
         </tag-input>
     </div>
+
+    <app-galleria-view [images]="images">
+    </app-galleria-view>
 
     <!--bonuses-->
 

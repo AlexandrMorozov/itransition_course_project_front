@@ -154,14 +154,14 @@ export class CampaignredactComponent implements OnInit {
 
   addCampaign(campaign: Campaign, formData: FormData) {
     this.campaignService.addCampaign(campaign, formData).subscribe(
-      data => {console.log("qq"); this.router.navigate['home']; }, 
+      data => {console.log("qq");  this.router.navigate(["user/" + this.user.name]); }, 
       err => { console.log(err); });
   }
 
   //
   updateCampaign(campaign: Campaign, form: FormData) {
     this.campaignService.updateCampaign(campaign, form).subscribe(
-        data => {console.log("user/" + this.user.name); this.router.navigate['home']; }, 
+        data => {console.log("user/" + this.user.name);  this.router.navigate(["user/" + this.user.name]); }, 
         err => { console.log(err);} );
   }
 
@@ -172,10 +172,16 @@ export class CampaignredactComponent implements OnInit {
 
     if (this.isUpdate) {
       campaign.id = this.campaign.id;
+      campaign.sumOfFundedMoney = this.campaign.sumOfFundedMoney;
+      //
+      campaign.pictures = this.campaign.pictures;
+      //
     } else {
       campaign.id = null;
+      campaign.sumOfFundedMoney = 0;
     }
 
+    
     campaign.name = this.form.name;
     campaign.description = this.form.desc;
     campaign.videoLink = this.form.video;
@@ -192,6 +198,7 @@ export class CampaignredactComponent implements OnInit {
 
   //
   onSubmit() {
+
 
   this.reformatTags();
 
