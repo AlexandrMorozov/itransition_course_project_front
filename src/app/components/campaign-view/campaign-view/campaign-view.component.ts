@@ -9,11 +9,13 @@ import { CampaignService } from 'src/app/services/component-services/campaignser
 import { CampaignViewService } from 'src/app/services/component-services/user-view-service/campaign-view.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Campaign } from 'src/app/domain/campaign';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-campaign-view',
   templateUrl: './campaign-view.component.html',
-  styleUrls: ['./campaign-view.component.css']
+  styleUrls: ['./campaign-view.component.css'],
+  providers: [MessageService]
 })
 export class CampaignViewComponent implements OnInit {
 
@@ -21,7 +23,8 @@ export class CampaignViewComponent implements OnInit {
      private tokenService: TokenStorageService, 
      private route: ActivatedRoute, private router: Router,
      private campaignService: CampaignService,
-     private domSanitizer: DomSanitizer ) { }
+     private domSanitizer: DomSanitizer,
+     private messageService: MessageService ) { }
 
   ngOnInit(): void {
 
@@ -29,11 +32,12 @@ export class CampaignViewComponent implements OnInit {
     var user = this.tokenService.getUser();
 
     this.getViewedCampaign(campaign, user);
-
-    //this.getAvgCampaignRating(this.id);
   }
 
   //Composite parameters
+
+  campaign: Campaign;
+
   images: Picture[];
 
   bonuses: Bonus[];
@@ -43,7 +47,6 @@ export class CampaignViewComponent implements OnInit {
   topic: Topic;
 
 //Simple parameters
-
   id: number;
  
   name: string;
@@ -59,7 +62,6 @@ export class CampaignViewComponent implements OnInit {
   sumOfFundedMoney: number; 
 
   //Rating parameters
-
   userName: string = null;
 
   avgRating: number;
@@ -68,12 +70,22 @@ export class CampaignViewComponent implements OnInit {
 
   isLoggedIn: boolean = false;
 
+  isCampaignRated: boolean = false;
+
   progressRate: number;
+
+  //Donation
+  donationDialog: boolean = false;
+
+  donationSum: number = null;
 
   getViewedCampaign(campaignName: string, user) {
 
     this.campaignService.getCampaign(campaignName).subscribe(
       data => {
+
+        this.campaign = data;
+
         //Composite args
         this.images = data.pictures;
         this.bonuses = data.bonuses;
@@ -89,6 +101,9 @@ export class CampaignViewComponent implements OnInit {
         this.lastDateOfCampaign = data.lastDateOfCampaign;
         this.sumOfFundedMoney = data.sumOfFundedMoney;
 
+        this.progressRate = this.sumOfFundedMoney / (this.sumOfMoney / 100);
+
+
         this.getAvgCampaignRating(this.id);
 
         if (user !== undefined && user !== null) {
@@ -96,6 +111,7 @@ export class CampaignViewComponent implements OnInit {
           this.isLoggedIn = true;
     
           console.log(this.id);
+
           this.getUserCampaignRating(this.id, user.id);
     
         } else { this.isLoggedIn = false;}
@@ -108,15 +124,89 @@ export class CampaignViewComponent implements OnInit {
 
     this.campaignViewService.getAvgCampaignRating(campaignId).subscribe(
       data => { this.avgRating = data; console.log(this.avgRating); },
-       err => {}
+       err => {
+         this.messageService.add({severity:'error', summary: 'Error', detail: err});
+       }
     );
   }
 
   getUserCampaignRating(campaignId: number, userId: number) {
     this.campaignViewService.getUserCampaignRating(campaignId, userId).subscribe(
-      data => { this.personalRating = data; console.log(this.personalRating); },
-       err => {}
+      data => { 
+        this.personalRating = data; 
+        this.isCampaignRated = this.personalRating != null ? true : false;
+      },
+       err => {
+        this.messageService.add({severity:'error', summary: 'Error', detail: err});
+       }
     );
+  }
+
+  rateCampaign(event) {
+
+    if (event.value != 0) {
+
+      var userId: number = this.tokenService.getUser().id;
+
+      this.campaignViewService.rateCampaign(userId, this.name, event.value).subscribe(
+        data => {
+          console.log(data);
+           this.isCampaignRated = true;
+           this.getAvgCampaignRating(this.id);
+
+          }, err => {
+            this.messageService.add({severity:'error', summary: 'Error', detail: err});
+          }
+      );
+    }
+
+  }
+
+  sendDonation() {
+
+    console.log(this.donationSum);
+
+    var donatedSum = this.donationSum;
+
+    this.campaignViewService.donateSum(donatedSum, this.id).subscribe(
+      data => {
+        this.messageService.add({severity:'success', summary: 'Success', detail: "dd"});
+        
+        this.sumOfFundedMoney = this.sumOfFundedMoney + donatedSum;
+        this.progressRate = (this.sumOfFundedMoney + this.donationSum) / (this.sumOfMoney / 100);
+      }, err => {
+        console.log(err);
+      }
+    );
+
+    this.donationDialog = false;
+    this.donationSum = null;
+  }
+
+  openDonationDialog() {
+    this.donationDialog = true;
+    this.donationSum = null;
+  }
+
+  hideDonationDialog() {
+    this.donationDialog = false;
+    this.donationSum = 0;
+  }
+
+  purchaseBonus(bonus: Bonus) {
+
+    var userId: number = this.tokenService.getUser().id;
+
+    this.campaignViewService.purchaseBonus(userId, bonus, this.campaign).subscribe(
+      data => {
+        console.log("succ");
+        this.sumOfFundedMoney = this.sumOfFundedMoney + bonus.sum;
+        this.progressRate = (this.sumOfFundedMoney + this.donationSum) / (this.sumOfMoney / 100);
+      }, err => {
+        console.log("def");
+      }
+    );
+
   }
 
 }

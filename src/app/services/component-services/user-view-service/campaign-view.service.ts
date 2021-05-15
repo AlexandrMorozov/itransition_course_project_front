@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalConstants } from '../../../common/global-constants';
 import { Bonus } from 'src/app/domain/bonus';
+import { Campaign } from 'src/app/domain/campaign';
 
 const API_URL = GlobalConstants.apiURL;
 
@@ -13,12 +14,6 @@ export class CampaignViewService {
 
   constructor(private http: HttpClient) { }
 
- /* getCampaignData(campaignName: string): Observable<any> {
-
-    const params: HttpParams = new HttpParams().set("campaignName", campaignName);
-    return this.http.get(API_URL + "/getcampaign", {responseType: "json", params: params});
-  }*/
-
   donateSum(sumOfMoney: number, campaignId: number): Observable<any> {
 
     const params: HttpParams = new HttpParams()
@@ -28,8 +23,8 @@ export class CampaignViewService {
     return this.http.get(API_URL + "/campaign/donatemoney", {responseType: 'json', params: params});
   }
 
-  purchaseBonus(bonus: Bonus): Observable<any> {
-    return this.http.post(API_URL + "/buybonus", bonus);
+  purchaseBonus(userId: number, bonus: Bonus, campaign: Campaign): Observable<any> {
+    return this.http.post(API_URL + "/user/purchasebonus", {userId: userId, bonus: bonus, campaign: campaign});
   }
 
   getAvgCampaignRating(campaignId: number): Observable<number> {
@@ -47,5 +42,18 @@ export class CampaignViewService {
     return this.http.get<number>(API_URL + "/rating/user", {params: params});
 
   }
+
+  rateCampaign(userId: number, campaignName: string, ratingValue: number) {
+
+    const params: HttpParams = new HttpParams()
+    .set("userId", userId.toString())
+    .set("campaignName", /*campaignId.toString()*/campaignName)
+    .set("ratingValue", ratingValue.toString());
+
+    return this.http.get(API_URL + "/user/addrating", {params: params} );
+
+  }
+
+  
 
 }

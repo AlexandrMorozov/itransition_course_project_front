@@ -43,7 +43,7 @@ export class Campaign {
     
     bonuses: Bonus[];
     
-    pictures: /*any[]*/Picture[];
+    pictures: Picture[];
     
     topic: Topic;
 

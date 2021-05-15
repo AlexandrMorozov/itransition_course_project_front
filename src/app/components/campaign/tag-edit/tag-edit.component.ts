@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tag } from '../../../domain/tag';
-import { CampaignService } from '../../../services/component-services/campaignservice/campaign.service';
+/*import { CampaignService } from '../../../services/component-services/campaignservice/campaign.service';*/
 import { Input, Output, EventEmitter} from '@angular/core';
-import { Observable } from 'rxjs';
+/*import { Observable } from 'rxjs';*/
 import { TagService } from '../../../services/component-services/tag-service/tag.service';
 import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
 
