@@ -6,7 +6,6 @@ export class GlobalConstants {
 
     public static tokenHeaderKey = "Authorization";
 
-    //???
     public static httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       };

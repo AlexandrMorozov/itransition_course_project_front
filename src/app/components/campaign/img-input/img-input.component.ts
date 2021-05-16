@@ -33,7 +33,6 @@ export class ImgInputComponent implements OnInit {
     this.onFileChange.emit(this.files);
   }
 
-  //!!!
   deleteSelectedImages() {
     this.images = this.images.filter(val => !this.selectedImages.includes(val));
     this.selectedImages = null;

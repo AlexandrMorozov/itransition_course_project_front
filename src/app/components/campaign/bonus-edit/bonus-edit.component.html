@@ -31,7 +31,6 @@
                 <td>{{bonus.sum | currency:'USD'}}</td>
                 <td>{{bonus.description}}</td>
                 <td>
-                  <!--refactor-->
                   <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editBonus(bonus)"></button>
                   <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteBonus(bonus)"></button>
                 </td>
@@ -64,5 +63,3 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveBonus()"></button>
     </ng-template>
 </p-dialog>
-
-<!--<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>-->
