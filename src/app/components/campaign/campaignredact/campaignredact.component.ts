@@ -9,19 +9,21 @@ import { Campaign } from '../../../domain/campaign';
 import { User } from 'src/app/domain/user';
 import { Topic } from 'src/app/domain/topic';
 import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-campaignredact',
   templateUrl: './campaignredact.component.html',
   styleUrls: ['./campaignredact.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe, MessageService]
 })
 export class CampaignredactComponent implements OnInit {
 
   constructor(private campaignService: CampaignService,
       private userService: UserService,
       private route: ActivatedRoute, private router: Router,
-       private tokenService: TokenStorageService) { }
+       private tokenService: TokenStorageService,
+       private messageService: MessageService) { }
 
   date = Date.now();
 
@@ -96,15 +98,24 @@ export class CampaignredactComponent implements OnInit {
     this.campaignService.getCampaign(campaign).subscribe(
       data => {
 
-        this.campaign = data;
-        this.bonuses = data.bonuses;
-        this.tags = data.tags;
-        this.selectedTheme = data.topic;
-        this.form.name = data.name;
-        this.form.date = data.lastDateOfCampaign;
-        this.form.sum = data.sumOfMoney;
-        this.form.desc = data.description;
-        this.form.video = data.videoLink;
+        if (data == null) {
+
+          this.messageService.add({severity:'error', summary: 'Message',
+          detail: "Requested campaign dont exist!"});
+
+        } else {
+
+          this.campaign = data;
+          this.bonuses = data.bonuses;
+          this.tags = data.tags;
+          this.selectedTheme = data.topic;
+          this.form.name = data.name;
+          this.form.date = data.lastDateOfCampaign;
+          this.form.sum = data.sumOfMoney;
+          this.form.desc = data.description;
+          this.form.video = data.videoLink;
+
+        }
 
       }, err => {
         this.router.navigate(['home']);
@@ -152,15 +163,24 @@ export class CampaignredactComponent implements OnInit {
 
   }
 
-  addCampaign(campaign: Campaign, formData: FormData) {
-    this.campaignService.addCampaign(campaign, formData).subscribe(
-      data => {console.log("qq");  this.router.navigate(["user/" + this.user.name]); }, 
+  addCampaign(formData: FormData) {
+    this.campaignService.addCampaign(formData).subscribe(
+      data => {
+        console.log(data);
+        if (data == true) {
+        
+          this.router.navigate(["user/" + this.user.name]); 
+        } else {
+          this.messageService.add({severity:'error', summary: 'Message',
+          detail: "Campaign with such name already exists!"});
+        }
+      }, 
       err => { console.log(err); });
   }
 
   //
-  updateCampaign(campaign: Campaign, form: FormData) {
-    this.campaignService.updateCampaign(campaign, form).subscribe(
+  updateCampaign(form: FormData) {
+    this.campaignService.updateCampaign(form).subscribe(
         data => {console.log("user/" + this.user.name);  this.router.navigate(["user/" + this.user.name]); }, 
         err => { console.log(err);} );
   }
@@ -208,9 +228,9 @@ export class CampaignredactComponent implements OnInit {
   formData.append("campaign", JSON.stringify(campaign));
 
   if (!this.isUpdate) {
-    this.addCampaign(campaign, formData);
+    this.addCampaign(formData);
   } else {
-    this.updateCampaign(campaign, formData);
+    this.updateCampaign(formData);
   }
 
   this.router.navigate['home'];
@@ -225,7 +245,6 @@ export class CampaignredactComponent implements OnInit {
     this.bonuses = bonuses;
   }
 
-  //
   onImagesChange(images: any[]) {
     this.images = images;
   }

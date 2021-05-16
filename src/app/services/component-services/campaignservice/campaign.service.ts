@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Campaign } from 'src/app/domain/campaign';
 import { Topic } from 'src/app/domain/topic';
@@ -29,11 +29,11 @@ export class CampaignService {
     return this.http.get(API_URL + "avgrating", {responseType: "json", params});
   }
 
-  addCampaign(campaign: Campaign, file: FormData): Observable<any> {
+  addCampaign(file: FormData): Observable<any> {
     return this.http.post(API_URL + "/campaign/add", file);
   }
 
-  updateCampaign(campaign: Campaign, file: FormData): Observable<any> {
+  updateCampaign(file: FormData): Observable<any> {
     return this.http.post(API_URL + "/campaign/update", file);
   }
 

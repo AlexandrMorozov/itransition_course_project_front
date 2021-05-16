@@ -1,10 +1,10 @@
-
+<p-toast position="top-left"></p-toast>
        <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <a [routerLink]="['campaign', 'new']">
                 <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"></button>
             </a>
-            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedCampaigns || !selectedCampaigns.length"></button>
+            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedCampaigns()" [disabled]="!selectedCampaigns || !selectedCampaigns.length"></button>
         </ng-template>
     </p-toolbar>
 
@@ -44,13 +44,13 @@
                     <td>{{campaign.sumOfMoney | currency:'USD'}}</td>
                     <td>{{campaign.lastDateOfCampaign}}</td>
                     <td>
-                        <a [routerLink]="['campaign', campaign.name, 'view']">
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button>
+                        <a href="campaign/{{campaign.name}}/view">
+                            <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-success p-mr-2"></button>
                          </a>
                       <a [routerLink]="['campaign', campaign.name, 'edit']">
                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button>
                         </a>
-                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(campaign)"></button>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCampaign(campaign)"></button>
                     </td>
                 </tr>
             </ng-template>

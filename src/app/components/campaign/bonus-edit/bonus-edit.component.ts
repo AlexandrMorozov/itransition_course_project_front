@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Bonus } from '../../../domain/bonus';
-/*import {BonusServiceService} from '../../../services/component-services/bonus-service/bonus-service.service';*/
 
 @Component({
   selector: 'app-bonus-edit',
@@ -11,7 +10,7 @@ export class BonusEditComponent implements OnInit {
 
   @Output() onChange = new EventEmitter<Bonus[]>();
 
-  constructor(/*private bonusService: BonusServiceService*/) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -45,7 +44,7 @@ export class BonusEditComponent implements OnInit {
 
     this.bonuses = [...this.bonuses];
     this.bonusDialog = false;
-    this.bonus = /*null*/{};
+    this.bonus = {};
     this.bonusIndex = null;
 
     this.onChange.emit(this.bonuses);
@@ -88,7 +87,7 @@ export class BonusEditComponent implements OnInit {
   }
 
   createNewBonus() {
-    this.bonus = /*null*/{};
+    this.bonus = {};
     this.bonusIndex = null;
     this.submitted = false;
     this.bonusDialog = true;

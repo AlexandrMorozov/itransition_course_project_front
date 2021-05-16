@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectableRowDblClick } from 'primeng/table';
-import { find } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
 import { Role } from 'src/app/domain/role';
 import { Roles } from 'src/app/domain/roles';
 import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
@@ -11,14 +10,16 @@ import { UserService } from '../../services/component-services/user-service/user
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
+  providers: [MessageService]
 })
 
 export class AdminComponent implements OnInit {
 
   constructor(private userService: UserService, 
     private adminService: AdminService,
-     private tokenService: TokenStorageService) { }
+     private tokenService: TokenStorageService,
+     private messageService: MessageService) { }
 
   users: User[] = new Array();
 
@@ -36,7 +37,7 @@ export class AdminComponent implements OnInit {
     console.log(isEnabled);
     this.adminService.changeUserState(this.selectedUsers, isEnabled).subscribe(
       data => {
-        //
+
         this.selectedUsers = null;
         window.location.reload()
         
@@ -49,6 +50,9 @@ export class AdminComponent implements OnInit {
     this.adminService.deleteUsers(this.selectedUsers).subscribe(
       data => {
         
+        this.messageService.add({severity:'success', summary: 'Message',
+        detail: "Users were successfuly deleted!"});
+
         this.users = this.users.filter(val => !this.selectedUsers.includes(val));
         this.selectedUsers = null;
 
@@ -62,6 +66,10 @@ export class AdminComponent implements OnInit {
 
     this.adminService.deleteUsers(users).subscribe(
       data => {
+
+        this.messageService.add({severity:'success', summary: 'Message',
+        detail: "User was successfuly deleted!"});
+
         this.users = this.users.filter(val => (val.id !== user.id));
         this.selectedUser = null;
       }, err => {this.tokenService.signOut();}

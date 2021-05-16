@@ -6,7 +6,6 @@ import { User } from '../../../domain/user';
 import { Roles } from 'src/app/domain/roles';
 
 const API_URL = GlobalConstants.apiURL;
-const httpOptions = GlobalConstants.httpOptions;//
 
 @Injectable({
   providedIn: 'root'

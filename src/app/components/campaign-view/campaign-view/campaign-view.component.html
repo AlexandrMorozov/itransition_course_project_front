@@ -120,8 +120,6 @@
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="price">Your donation sum:</label>
-                <!--<p-inputNumber mode="currency" currency="USD" locale="en-US" id="sum" min='10' max='1000000'
-                name="sum"></p-inputNumber>-->
                 <p-inputNumber id="price" [(ngModel)]="donationSum" mode="currency" min='1' currency="USD" locale="en-US" required></p-inputNumber>
             </div>
         </div>

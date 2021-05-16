@@ -47,7 +47,7 @@ export class CampaignViewService {
 
     const params: HttpParams = new HttpParams()
     .set("userId", userId.toString())
-    .set("campaignName", /*campaignId.toString()*/campaignName)
+    .set("campaignName", campaignName)
     .set("ratingValue", ratingValue.toString());
 
     return this.http.get(API_URL + "/user/addrating", {params: params} );

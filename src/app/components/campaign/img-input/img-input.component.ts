@@ -9,12 +9,11 @@ import { Input, Output, EventEmitter} from '@angular/core';
 export class ImgInputComponent implements OnInit {
 
   @Output() onFileChange = new EventEmitter<File[]>();
-  //!!!
+  
   @Output() onSavedPictureChange = new EventEmitter<any[]>();
 
   files: File[] = [];
 
-  ///!!!
   @Input() images:any[];
 
   selectedImages:any[];

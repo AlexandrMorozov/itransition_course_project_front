@@ -3,11 +3,13 @@ import { CampaignService } from 'src/app/services/component-services/campaignser
 import { Campaign } from 'src/app/domain/campaign';
 import { TokenStorageService } from 'src/app/services/authorization/tokenstorageservice/token-storage.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-campaigntable',
   templateUrl: './campaigntable.component.html',
-  styleUrls: ['./campaigntable.component.css']
+  styleUrls: ['./campaigntable.component.css'],
+  providers: [MessageService]
 })
 export class CampaigntableComponent implements OnInit {
 
@@ -20,17 +22,20 @@ export class CampaigntableComponent implements OnInit {
   selectedCampaigns: Campaign[];
 
   constructor(private campaignService: CampaignService, 
-    private tokenService: TokenStorageService,
-    private router: Router) { }
+    private tokenService: TokenStorageService, private router: Router, 
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
 
-  deleteSelectedProducts() {
+  deleteSelectedCampaigns() {
 
     this.campaignService.deleteCampaign(this.selectedCampaigns).subscribe(
       data => {
-        console.log("succ");
+
+        this.messageService.add({severity:'success', summary: 'Message',
+        detail: "Campaigns were successfuly deleted!"});
+
         this.campaigns = this.campaigns.filter(val => !this.selectedCampaigns.includes(val));
         this.selectedCampaigns = null;
       },
@@ -45,13 +50,16 @@ export class CampaigntableComponent implements OnInit {
   }
     
   //!
-  deleteProduct(campaign: Campaign) {
+  deleteCampaign(campaign: Campaign) {
 
     var campaigns: Campaign[] = [campaign];
 
     this.campaignService.deleteCampaign(campaigns).subscribe(
       data => {
-        console.log("succ");
+
+        this.messageService.add({severity:'success', summary: 'Message',
+        detail: "Campaign were successfuly deleted!"});
+
         this.campaigns = this.campaigns.filter(val => val.id !== campaign.id);
         this.campaign = null;
       },

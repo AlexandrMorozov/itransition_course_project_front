@@ -5,7 +5,6 @@ import { GlobalConstants } from '../../../common/global-constants';
 import { Tag } from 'src/app/domain/tag';
 
 const API_URL = GlobalConstants.apiURL;
-const httpOptions = GlobalConstants.httpOptions;
 
 @Injectable({
   providedIn: 'root'

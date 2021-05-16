@@ -44,8 +44,7 @@ export class UsermenuComponent implements OnInit {
     private route: ActivatedRoute, private router: Router) {
       this.userName = route.snapshot.params['username'];
      }
-
-     //!!
+     
     updateSingleField(prop: any, control: any): void {
 
       this[prop] = this[control].value;
@@ -76,8 +75,6 @@ export class UsermenuComponent implements OnInit {
           console.log(this.tokenStorage.getUser().name);
       },
       err => {
-       /* console.log(err);
-        this.content = JSON.parse(err.error).message;*/
         this.tokenStorage.signOut();
         this.router.navigate(['home']);
       });
@@ -97,9 +94,6 @@ export class UsermenuComponent implements OnInit {
 
         this.tokenStorage.signOut();
         this.router.navigate(['home']);
-
-       /* console.log(err);
-        this.content = JSON.parse(err.error).message;*/
       });
     }
 
@@ -107,21 +101,25 @@ export class UsermenuComponent implements OnInit {
 
     this.userService.getUserAccount(this.userName).subscribe(
       data => {
-        this.content = data;
-        this.user = data;
 
-        this.name = data.name;
-        this.email = data.email;
+        if (data != null) {
 
-        this.userControl = new FormControl(data.name);
-        this.mailControl = new FormControl(data.email);
+          this.content = data;
+          this.user = data;
+  
+          this.name = data.name;
+          this.email = data.email;
+  
+          this.userControl = new FormControl(data.name);
+          this.mailControl = new FormControl(data.email);
+  
+          this.campaigns = this.user.campaigns;
+          this.bonuses = this.user.bonuses;
 
-        this.campaigns = this.user.campaigns;
-        this.bonuses = this.user.bonuses;
+        }
 
       },
       err => {
-        console.log( err.status);
         this.tokenStorage.signOut();
         this.router.navigate(['home']);
       }
