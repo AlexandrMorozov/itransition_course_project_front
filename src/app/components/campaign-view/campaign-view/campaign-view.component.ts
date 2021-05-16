@@ -175,7 +175,9 @@ export class CampaignViewComponent implements OnInit {
 
     var donatedSum = this.donationSum;
 
-    if (donatedSum == null) {
+    console.log(isNaN(donatedSum));
+
+    if (donatedSum == null || isNaN(donatedSum)) {
       this.messageService.add({severity:'error', summary: 'Message',
        detail: "In order to donate you must provide sum value!"});
     } else {

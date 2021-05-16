@@ -56,55 +56,85 @@
       <a ngbNavLink>Your profile</a>
       <ng-template ngbNavContent>
 
-        <div>
-          <editable data-testid="sampleForm-btn"
-          [openBindingEvent]="openBindingEvent"
-          (save)="updateSingleField('name', 'userControl')"
-          (cancel)="cancelSingleField('name', 'userControl')">
-
-            <ng-template viewMode>{{name}}</ng-template>
-      
-            <ng-template editMode>
-              <div class="d-flex align-items-baseline">
-                <div class="form-group">
-              <input class="form-control" data-testid="sampleForm-btn-edit" [formControl]="userControl" />
-            </div>
-
-            <button class="btn btn-success" data-testid="sampleForm-save-btn" editableOnSave>Save</button>
-            <button class="btn btn-secondary" data-testid="sampleForm-cancel-btn" editableOnCancel>Cancel</button>
-
-          </div>
-            </ng-template>
-          </editable> 
-        </div>
 
         <div>
-          <editable data-testid="sampleForm-btn"
-          [openBindingEvent]="openBindingEvent"
-          (save)="updateSingleField('email', 'mailControl')"
-          (cancel)="cancelSingleField('email', 'mailControl')">
-
-            <ng-template viewMode>{{email}}</ng-template>
-      
-            <ng-template editMode>
-              <div class="d-flex align-items-baseline">
-                <div class="form-group">
-              <input class="form-control" data-testid="sampleForm-btn-edit" [formControl]="mailControl" />
-            </div>
-
-            <button class="btn btn-success" data-testid="sampleForm-save-btn" editableOnSave>Save</button>
-            <button class="btn btn-secondary" data-testid="sampleForm-cancel-btn" editableOnCancel>Cancel</button>
-
-          </div>
-            </ng-template>
-          </editable> 
+          <h2><b>User information:</b></h2>
         </div>
         
-        <ul>
-          <li *ngFor = "let role of user.roles">
-            {{role.roleName}}
-          </li>
-        </ul>
+        <div class="row">
+
+          <div style="margin-right: 20px;">
+            <h5><b>Username:</b></h5>
+          </div>
+
+          <div>
+            <editable data-testid="sampleForm-btn"
+            [openBindingEvent]="openBindingEvent"
+            (save)="updateSingleField('name', 'userControl')"
+            (cancel)="cancelSingleField('name', 'userControl')">
+  
+              <ng-template viewMode>{{name}}</ng-template>
+        
+              <ng-template editMode>
+                <div class="d-flex align-items-baseline">
+                   <div class="form-group">
+                     <input class="form-control" data-testid="sampleForm-btn-edit" [formControl]="userControl" />
+                    </div>
+  
+              <button class="btn btn-success" data-testid="sampleForm-save-btn" editableOnSave>Save</button>
+              <button class="btn btn-secondary" data-testid="sampleForm-cancel-btn" editableOnCancel>Cancel</button>
+  
+            </div>
+              </ng-template>
+            </editable> 
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div style="margin-right: 20px;">
+            <h5><b>Email address:</b></h5>
+          </div>
+
+          <div>
+            <editable data-testid="sampleForm-btn"
+            [openBindingEvent]="openBindingEvent"
+            (save)="updateSingleField('email', 'mailControl')"
+            (cancel)="cancelSingleField('email', 'mailControl')">
+  
+              <ng-template viewMode>{{email}}</ng-template>
+        
+              <ng-template editMode>
+                <div class="d-flex align-items-baseline">
+                  <div class="form-group">
+                <input class="form-control" data-testid="sampleForm-btn-edit" [formControl]="mailControl" />
+              </div>
+  
+              <button class="btn btn-success" data-testid="sampleForm-save-btn" editableOnSave>Save</button>
+              <button class="btn btn-secondary" data-testid="sampleForm-cancel-btn" editableOnCancel>Cancel</button>
+  
+            </div>
+              </ng-template>
+            </editable> 
+          </div>
+
+          </div>
+
+          <div class="row">
+
+            <div style="margin-right: 20px;">
+              <h5><b>Roles:</b></h5>
+            </div>  
+
+            <div *ngFor = "let role of user.roles"  style="margin-left: 10px;">
+              {{role.roleName}}
+            </div>
+            
+          </div>
+
+
+        
+      
 
       </ng-template>
     </li>
